@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"] - pruebaNativo</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="~/css/main.css" />
+    <noscript><link rel="stylesheet" href="~/css/noscript.css" /></noscript>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header" class="alt">
+            <span class="logo"><img src="~/css/images/logo.svg" alt="" /></span>
+            <h1>Zip Codes</h1>
+        </header>
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul>
+                <li><a href="#intro" class="active">Go to Search</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+            @RenderBody()
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <section>
+            </section>
+            <section>
+                <h2>Mario Estrada</h2>
+                <dl class="alt">
+                    <dt>Address</dt>
+                    <dd>Leon, Nicaragua</dd>
+                    <dt>Phone</dt>
+                    <dd>(+505) 8857-6613</dd>
+                    <dt>Email</dt>
+                    <dd><a href="#">javiestrada90@gmail.com</a></dd>
+                </dl>
+                <ul class="icons">
+                    <li><a href="https://github.com/Maestrada" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
+                    <li><a href="https://www.linkedin.com/in/fullstackdevmarioestrada/" class="icon brands fa-linkedin alt"><span class="label">LinkedIn</span></a></li>
+                </ul>
+            </section>
+            <p class="copyright"> &copy; 2021 - pruebaNativo - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/jquery.scrollex.min.js"></script>
+    <script src="~/js/jquery.scrolly.min.js"></script>
+    <script src="~/js/browser.min.js"></script>
+    <script src="~/js/breakpoints.min.js"></script>
+    <script src="~/js/util.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

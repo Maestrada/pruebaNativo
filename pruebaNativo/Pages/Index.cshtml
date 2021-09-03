@@ -1,0 +1,140 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<style>
+    .ui-autocomplete {
+        max-height: 250px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+    }
+    /* IE 6 doesn't support max-height
+    * we use height instead, but this forces the menu to always be this tall
+    */
+    * html .ui-autocomplete {
+        height: 250px;
+    }
+</style>
+<!-- Introduction -->
+<section id="intro" class="main">
+    <div class="row">
+        <div class="col-lg-8 col-sm-12">
+            <input type="text" id="zipcode" class="form-control" placeholder="Zip Code" required="" autofocus="">
+        </div>
+        <div class="col-lg-4 col-sm-12">
+            <a href="javascript:void(0)" class="button primary bt_search">Search</a>
+            <a href="javascript:void(0)" class="button  bt_clear">Clear</a>
+        </div>
+        <div class="col-lg-12 err" style="display:none">
+            <ul class="statistics">
+                <li class="style1">  Please review your search...</li>
+            </ul>             
+        </div>
+    </div>
+</section>
+<section class="main special">
+    
+    <section class="foundzip" style="display:none">
+        <h2>Results</h2>
+        <dl class="alt">
+            <dt>Department</dt>
+            <dd data-item="department"></dd>
+            <dt>Municipality</dt>
+            <dd data-item="municipio"></dd>
+            <dt>Postal Code</dt>
+            <dd data-item="code"></dd>
+            <dt>Neighbourhood</dt>
+            <dd data-item="neighbord"></dd>
+        </dl>
+    </section>
+        <section class="nodata" style="display:none">
+            <ul class="statistics">
+                <li class="style3">
+                    Sorry, your zipcode was not found....
+                    <br />Try again with other Zip!
+                </li>
+            </ul> 
+        </section>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        var dataList = [];
+        loadValues();
+
+        setTimeout(function () {
+            $("#zipcode").autocomplete({
+                source: dataList,
+                select: function (event, ui) {
+                    
+                }
+            }).on("keyup", function (e) {
+                if (e.which == 13) {
+                    SearchCode();
+                }
+            });
+        }, 1000);
+
+        $(".bt_search").on("click", function (ev) {
+            SearchCode();
+        });
+
+        $(".bt_clear").on("click", function (ev) {
+            $("#zipcode").val("");
+            $(".foundzip").hide(500);
+            $(".nodata").hide(500);
+            $(".err").hide(500);
+        });
+
+
+        function SearchCode() {
+            let code = $("#zipcode").val();
+            if (!code.trim()) {
+                $(".err").show(500);
+                setTimeout(function () {
+                    $(".err").hide(500);
+                }, 3000);
+                return;
+            }
+
+           loadValues(code);   
+
+        }
+
+        function loadValues(search) {
+            $.getJSON("DB/zipcodes.json", function (data) {
+
+                if (search) {
+                    let zipData =  data.find(function (a) { return a["Postal code"] == search });
+
+                    if (zipData) {
+                        $(".foundzip").show(500);
+                        $(".nodata").hide(500);
+                        $(".err").hide(500);
+
+                        $("[data-item=department]").html(zipData["Department"]);
+                        $("[data-item=municipio]").html(zipData["Municipality"]);
+                        $("[data-item=code]").html(zipData["Postal code"]);
+                        $("[data-item=neighbord]").html(zipData["Neighbourhood"]);
+
+                    } else {
+                        $(".foundzip").hide(500);
+                        $(".nodata").show(500);
+                        $(".err").hide(500);
+                    }
+
+
+                } else {
+                    data.forEach(function (v, i) {
+                        dataList.push("" + v['Postal code']);
+                    });
+                }
+            });
+        }
+
+    </script>
+
+}
